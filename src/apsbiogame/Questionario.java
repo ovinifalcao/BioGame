@@ -26,10 +26,6 @@ public class Questionario {
   
     }
     
-    public void MeImprime()
-    {
-        System.out.print(Questao);
-    }
     
     public String getQuestao() { return Questao; }
     public String getResposta() { return Resposta; }

@@ -1,10 +1,9 @@
 package apsbiogame;
 
 
-public class Frm_EntradaGama extends javax.swing.JFrame {
+public class Frm_EntradaGame extends javax.swing.JFrame {
 
-
-    public Frm_EntradaGama() {
+    public Frm_EntradaGame() {
         initComponents();
     }
 
@@ -112,32 +111,25 @@ public class Frm_EntradaGama extends javax.swing.JFrame {
 
     private void ClickbtnFacil(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClickbtnFacil
 
-                this.setVisible(false);
-                
                 Perguntas_frame QuestionsSide;
                 QuestionsSide = new Perguntas_frame(3);
                 QuestionsSide.setVisible(true);
-
-
     }//GEN-LAST:event_ClickbtnFacil
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        this.setVisible(false);
+        //this.setVisible(false);
         Perguntas_frame QuestionsSide;
         QuestionsSide = new Perguntas_frame(4);
         QuestionsSide.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        this.setVisible(false);
+        //this.setVisible(false);
         Perguntas_frame QuestionsSide;
         QuestionsSide = new Perguntas_frame(5);
         QuestionsSide.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
-        public void runner() {
-        new Frm_Perguntas().setVisible(true);
-        }
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -153,20 +145,21 @@ public class Frm_EntradaGama extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Frm_EntradaGama.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Frm_EntradaGame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Frm_EntradaGama.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Frm_EntradaGame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Frm_EntradaGama.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Frm_EntradaGame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Frm_EntradaGama.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Frm_EntradaGame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Frm_EntradaGama().setVisible(true);
+                new Frm_EntradaGame().setVisible(true);
             }
         });
     }

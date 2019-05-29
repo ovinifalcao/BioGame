@@ -15,19 +15,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class XmlLoader {
-
-
-    /*public static void main(String[] args) {
-        List<Questionario> XmlToList;
-        XmlToList = XmlToList();
-        XmlToList.get(0).MeImprime();
-    }*/
-
-    /**
-     *
-     * @return
-     */
-
     
      public static List<Questionario> XmlToList()
     {

@@ -6,310 +6,351 @@ import java.util.Random;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 
-
 public class Perguntas_frame extends javax.swing.JFrame {
 
-        private String Resposta;
-        private String RespEscolhida;
-        private List<Questionario> XmlToList;
-        private int Dificuldade;
-        private ArrayList<Integer> QuestDone = new ArrayList<>();
-        private int ContadorGeral = 0;
-        private int Pontuacao = 0;
-    
-    public Perguntas_frame(int Dificuldade)
-    {
-        initComponents();
-        this.Dificuldade = Dificuldade;
-        LerDados();  
-        VerificaRangePerguntas(9);
-    }
-    
-    private void LerDados()
-    {
-        XmlToList = XmlLoader.XmlToList();  
-    }
-    
-    private void VerificaRangePerguntas(int FinalRange)
-    {
-        if(ContadorGeral <= FinalRange)
-        {
-            SelecionaPerguntaRamdon();
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(null,"Parece que você respodeu todas as questões, reinicie o jogo para jogar novamente");
-            this.setVisible(false);
-            
-            Frm_EntradaGama TelaInicial = new Frm_EntradaGama();
-            TelaInicial.setVisible(true);
-        }
-    
-    }
-    
-    private void SelecionaPerguntaRamdon()
-    {
-        AtualizaPainel();
-        
-        int Rand;
+    private String Resposta;
+    private String RespEscolhida;
+    private List< Questionario> XmlToList;
+    private int Dificuldade;
+    private ArrayList< Integer> QuestDone = new ArrayList<>();
+    private int ContadorGeral = 0;
+    private int Pontuacao = 0;
 
-        do{
-            Random r = new Random();
-            Rand = r.nextInt((9 - 0) + 1) + 0;
-        }while(QuestDone.contains(Rand));
-        
-        QuestDone.add(Rand);
-        ContadorGeral++;
-        Resposta = XmlToList.get(Rand).getResposta();
-
-        String[] OpcoesOrdenas = new String[Dificuldade];
-        OpcoesOrdenas[0] = XmlToList.get(Rand).getResposta();
-        OpcoesOrdenas[1] = XmlToList.get(Rand).getOp1();
-        OpcoesOrdenas[2] = XmlToList.get(Rand).getOp2();
-        if(Dificuldade > 3) OpcoesOrdenas[3] = XmlToList.get(Rand).getOp3();
-        if(Dificuldade > 4) OpcoesOrdenas[4] = XmlToList.get(Rand).getOp4();
-
-        String[] todasAsOpcoes =  PopulaQuestRandomico(OpcoesOrdenas);
-
-        jTextArea1.setText(XmlToList.get(Rand).getQuestao());
-        jCheckBox6.setText(todasAsOpcoes[0]);
-        jCheckBox7.setText(todasAsOpcoes[1]);
-        jCheckBox8.setText(todasAsOpcoes[2]); 
-
-        if(Dificuldade > 3){
-            jCheckBox9.setText(todasAsOpcoes[3]); 
-        } 
-        else{
-            jCheckBox9.setVisible(false);
-        }
-
-
-        if(Dificuldade > 4){
-            jCheckBox10.setText(todasAsOpcoes[4]); 
-        } 
-        else{
-            jCheckBox10.setVisible(false);
-        }      
-    }
-    
-    private void AtualizaPainel()
-    {
-       jLabel7.setText("Pontos:" + Pontuacao);
-       jLabel5.setText("Pergunta nº "+ (ContadorGeral +1) +" / 50");
-    }
-    
-    private String[] PopulaQuestRandomico(String[] OpcoesOrdenas)
-    {     
-        String[] OpcsFinal;
-        OpcsFinal = new String[OpcoesOrdenas.length];
-        
-        
-        boolean valorValido;
-        
-        int Rand;
-            for (String OpcoesOrdena : OpcoesOrdenas) {
-                do {
-                    Random r = new Random();
-                    Rand = r.nextInt(((OpcoesOrdenas.length - 1) - 0) + 1) + 0;
-                    if (OpcsFinal[Rand] == null) {
-                        OpcsFinal[Rand] = OpcoesOrdena;
-                        valorValido = false;
-                    } else {
-                        valorValido = true;
-                    }
-                } while (valorValido);
-            }
-            
-        return OpcsFinal;
-    }
-    
     public Perguntas_frame() {
         initComponents();
     }
 
-    private void setAllChecks(JCheckBox meuCheck, boolean IsEndQuest)
-    {
+    public Perguntas_frame(int Dificuldade) {
+        initComponents();
+        this.Dificuldade = Dificuldade;
+        LerDados();
+        SelecionaPerguntaRamdon();
+    }
+
+    private void LerDados() {
+        XmlToList = XmlLoader.XmlToList();
+    }
+
+    private void VerificaRangePerguntas(int FinalRange) {
+        if (!(ContadorGeral >= FinalRange)) {
+            SelecionaPerguntaRamdon();
+        } else {
+            JOptionPane.showMessageDialog(null, "Você respondeu todas as questões! Sua pontuação foi: " + Pontuacao + ". Para jogar novamente, reinicie o jogo");
+            this.setVisible(false);
+        }
+    }
+
+    private void SelecionaPerguntaRamdon() {
+        AtualizaPainel();
+        int Rand;
+        do {
+            Random r = new Random();
+            Rand = r.nextInt((XmlToList.size() - 0) + 1) + 0;
+        } while (QuestDone.contains(Rand));
+        QuestDone.add(Rand);
+        ContadorGeral++;
+        Resposta = XmlToList.get(Rand).getResposta();
+        String[] OpcoesOrdenas = new String[Dificuldade];
+        OpcoesOrdenas[0] = XmlToList.get(Rand).getResposta();
+        OpcoesOrdenas[1] = XmlToList.get(Rand).getOp1();
+        OpcoesOrdenas[2] = XmlToList.get(Rand).getOp2();
+        if (Dificuldade > 3) {
+            OpcoesOrdenas[3] = XmlToList.get(Rand).getOp3();
+        }
+        if (Dificuldade > 4) {
+            OpcoesOrdenas[4] = XmlToList.get(Rand).getOp4();
+        }
+        String[] todasAsOpcoes = PopulaQuestRandomico(OpcoesOrdenas);
+        jTextArea1.setText(XmlToList.get(Rand).getQuestao());
+        jCheckBox6.setText(todasAsOpcoes[0]);
+        jCheckBox7.setText(todasAsOpcoes[1]);
+        jCheckBox8.setText(todasAsOpcoes[2]);
+        if (Dificuldade > 3) {
+            jCheckBox9.setText(todasAsOpcoes[3]);
+        } else {
+            jCheckBox9.setVisible(false);
+        }
+        if (Dificuldade > 4) {
+            jCheckBox10.setText(todasAsOpcoes[4]);
+        } else {
+            jCheckBox10.setVisible(false);
+        }
+    }
+
+    private javax.swing.JCheckBox[] TodosOsChks() {
+        javax.swing.JCheckBox[] CheksErrados = {
+            jCheckBox6,
+            jCheckBox7,
+            jCheckBox8,
+            jCheckBox9,
+            jCheckBox10,};
+        return CheksErrados;
+    }
+
+    private void AtualizaPainel() {
+        jLabel2.setText("Pontos:" + Pontuacao);
+        jLabel1.setText("Pergunta nº " + (ContadorGeral + 1) + " / 50");
+        jCheckBox10.setVisible(true);
+        jCheckBox9.setVisible(true);
+        jCheckBox8.setVisible(true);
+        jCheckBox7.setVisible(true);
+        jCheckBox6.setVisible(true);
+        RespEscolhida = "";
+    }
+
+    private String[] PopulaQuestRandomico(String[] OpcoesOrdenas) {
+        String[] OpcsFinal;
+        OpcsFinal = new String[OpcoesOrdenas.length];
+        boolean valorValido;
+        int Rand;
+        for (String OpcoesOrdena : OpcoesOrdenas) {
+            do {
+                Random r = new Random();
+                Rand = r.nextInt(((OpcoesOrdenas.length - 1) - 0) + 1) + 0;
+                if (OpcsFinal[Rand] == null) {
+                    OpcsFinal[Rand] = OpcoesOrdena;
+                    valorValido = false;
+                } else {
+                    valorValido = true;
+                }
+            } while (valorValido);
+        }
+        return OpcsFinal;
+    }
+
+    private void setAllChecks(JCheckBox meuCheck, boolean IsEndQuest) {
         jCheckBox6.setSelected(false);
         jCheckBox7.setSelected(false);
         jCheckBox8.setSelected(false);
         jCheckBox9.setSelected(false);
-        jCheckBox10.setSelected(false); 
-        
-        if(!IsEndQuest)
-        {
+        jCheckBox10.setSelected(false);
+        if (!IsEndQuest) {
             meuCheck.setSelected(true);
-            RespEscolhida = meuCheck.getText();  
+            RespEscolhida = meuCheck.getText();
         }
-        
     }
-    
-    
-    
-    
+
+    //polimorfismo    
+    private void ChamarPorAjuda(HelperTip Ajudador) {
+        Ajudador.Ajudar();
+        Ajudador.setJaUsada(true);
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jCheckBox6 = new javax.swing.JCheckBox();
         jCheckBox7 = new javax.swing.JCheckBox();
         jCheckBox8 = new javax.swing.JCheckBox();
         jCheckBox9 = new javax.swing.JCheckBox();
         jCheckBox10 = new javax.swing.JCheckBox();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel2.setBackground(new java.awt.Color(0, 102, 102));
+        jPanel1.setBackground(new java.awt.Color(0, 102, 102));
 
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Pergunta nº 1 / 50");
-        jLabel5.setAlignmentX(10.0F);
-        jLabel5.setAlignmentY(5.0F);
-        jLabel5.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Pergunta nº 1/50");
 
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("BioGame 1.0.0");
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Pontos:0");
 
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("PontosUser: 50");
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("BioGame 1.0.0");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jLabel5)
-                .addGap(164, 164, 164)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 221, Short.MAX_VALUE)
-                .addComponent(jLabel7)
-                .addGap(22, 22, 22))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel1)
+                .addGap(205, 205, 205)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 253, Short.MAX_VALUE)
+                .addComponent(jLabel2)
                 .addContainerGap())
         );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
-        jButton2.setText("Confirmar Resposta");
+        jTextArea1.setColumns(20);
+        jTextArea1.setLineWrap(true);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        jButton1.setText("Confirmar Resposta");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Remover uma opção");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
-        jCheckBox6.setText("jCheckBox1");
+        jButton3.setText("Pular Questão");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jCheckBox6.setText("jCheckBox6");
         jCheckBox6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox6ActionPerformed(evt);
             }
         });
 
-        jCheckBox7.setText("jCheckBox2");
+        jCheckBox7.setText("jCheckBox7");
         jCheckBox7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox7ActionPerformed(evt);
             }
         });
 
-        jCheckBox8.setText("jCheckBox3");
+        jCheckBox8.setText("jCheckBox8");
         jCheckBox8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox8ActionPerformed(evt);
             }
         });
 
-        jCheckBox9.setText("jCheckBox4");
+        jCheckBox9.setText("jCheckBox9");
         jCheckBox9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox9ActionPerformed(evt);
             }
         });
 
-        jCheckBox10.setText("jCheckBox5");
+        jCheckBox10.setText("jCheckBox10");
         jCheckBox10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox10ActionPerformed(evt);
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(5);
-        jTextArea1.setAutoscrolls(false);
-        jTextArea1.setBorder(null);
-        jTextArea1.setFocusable(false);
-        jScrollPane1.setViewportView(jTextArea1);
-        jTextArea1.getAccessibleContext().setAccessibleName("txtArea");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jCheckBox6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addContainerGap())
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton3))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jCheckBox8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton2)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jCheckBox9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jCheckBox10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(10, 10, 10))))
+                            .addComponent(jCheckBox10)
+                            .addComponent(jCheckBox8)
+                            .addComponent(jCheckBox7)
+                            .addComponent(jCheckBox6)
+                            .addComponent(jCheckBox9))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jCheckBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox7, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox8, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox9, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox10, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jCheckBox6)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jCheckBox7)
+                .addGap(18, 18, 18)
+                .addComponent(jCheckBox8)
+                .addGap(18, 18, 18)
+                .addComponent(jCheckBox9)
+                .addGap(18, 18, 18)
+                .addComponent(jCheckBox10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
+                .addContainerGap())
         );
-
-        jPanel2.getAccessibleContext().setAccessibleName("PnHeader");
-        jButton2.getAccessibleContext().setAccessibleName("btnConfirmar");
-        jCheckBox6.getAccessibleContext().setAccessibleName("ckBox1");
-        jCheckBox6.getAccessibleContext().setAccessibleDescription("");
-        jCheckBox7.getAccessibleContext().setAccessibleName("ckBox1");
-        jCheckBox8.getAccessibleContext().setAccessibleName("ckBox1");
-        jCheckBox9.getAccessibleContext().setAccessibleName("ckBox1");
-        jCheckBox10.getAccessibleContext().setAccessibleName("ckBox1");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        PulaQuest AjudaPlOp = new PulaQuest();
+        int input = JOptionPane.showOptionDialog(null, "Você só pode esse botão uma vez, tem certeza que quer usar agora?", "Continuar?", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+        if (input == JOptionPane.OK_OPTION) {
+            ChamarPorAjuda(AjudaPlOp);
+        }
+        if (AjudaPlOp.JaUsada) {
+            jButton3.setEnabled(false);
+        }
+        if (AjudaPlOp.PontoDePulo) {
+            Pontuacao++;
+            setAllChecks(null, true);
+            SelecionaPerguntaRamdon();
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (!RespEscolhida.isEmpty()) {
+            if (RespEscolhida.equals(Resposta)) {
+                System.out.print("Certo");
+                JOptionPane.showMessageDialog(null, "Resposta correta");
+                Pontuacao++;
+            } else {
+                System.out.print("Errado");
+                JOptionPane.showMessageDialog(null, "Resposta Errada");
+            }
+            setAllChecks(null, true);
+            VerificaRangePerguntas(XmlToList.size());
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor, escolha ao menos uma resposta antes de confirmar.");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        ExcluiOp AjudaExOp = new ExcluiOp();
+        int input = JOptionPane.showOptionDialog(null, "Você só pode esse botão uma vez, tem certeza que quer usar agora?", "Continuar?", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+        if (input == JOptionPane.OK_OPTION) {
+            AjudaExOp.setCheckb(TodosOsChks());
+            AjudaExOp.setResposta(Resposta);
+            ChamarPorAjuda(AjudaExOp);
+            AjudaExOp.getChekFinal().setVisible(false);
+        }
+        if (AjudaExOp.JaUsada) {
+            jButton2.setEnabled(false);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jCheckBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox6ActionPerformed
         setAllChecks(jCheckBox6, false);
@@ -331,29 +372,6 @@ public class Perguntas_frame extends javax.swing.JFrame {
         setAllChecks(jCheckBox10, false);
     }//GEN-LAST:event_jCheckBox10ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if(RespEscolhida != null)
-        {
-            if(RespEscolhida.equals(Resposta))
-            {
-                System.out.print("Certo");
-                JOptionPane.showMessageDialog(null,"AcertouMizerávore");
-                Pontuacao++;
-            }
-            else
-            {
-                System.out.print("Errado");
-                JOptionPane.showMessageDialog(null,"ErrouMizerávore");
-            }
-            setAllChecks(null, true);
-            SelecionaPerguntaRamdon();
-            
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-
-    
-    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -386,19 +404,19 @@ public class Perguntas_frame extends javax.swing.JFrame {
         });
     }
 
-    
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JCheckBox jCheckBox10;
     private javax.swing.JCheckBox jCheckBox6;
     private javax.swing.JCheckBox jCheckBox7;
     private javax.swing.JCheckBox jCheckBox8;
     private javax.swing.JCheckBox jCheckBox9;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
