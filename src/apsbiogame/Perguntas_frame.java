@@ -25,7 +25,9 @@ public class Perguntas_frame extends javax.swing.JFrame {
         initComponents();
         this.Dificuldade = Dificuldade;
         LerDados();
-        SelecionaPerguntaRamdon();
+        SwingUtilities.invokeLater (() -> {
+            SelecionaPerguntaRamdon();
+        });
     }
 
     private void LerDados() {
@@ -40,18 +42,15 @@ public class Perguntas_frame extends javax.swing.JFrame {
             this.setVisible(false);
         }
     }
-
+           
     private void SelecionaPerguntaRamdon() {
-
-        SwingUtilities.invokeLater (() -> {
-                    AtualizaPainel();
-                       int Rand;
+            int Rand=0;
             do {
-                
                 Random r = new Random();
                 Rand = r.nextInt(((XmlToList.size()-1) - 0) + 1) + 0;
             } while (QuestDone.contains(Rand));
             
+            AtualizaPainel();
             QuestDone.add(Rand);
             ContadorGeral++;
             Resposta = XmlToList.get(Rand).getResposta();
@@ -80,11 +79,7 @@ public class Perguntas_frame extends javax.swing.JFrame {
                 jCheckBox10.setText(todasAsOpcoes[4]);
             } else {
                 jCheckBox10.setVisible(false);
-            }
-        });
-                
-
-        
+            } 
     }
 
     private javax.swing.JCheckBox[] TodosOsChks() {

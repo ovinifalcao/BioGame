@@ -1,0 +1,19 @@
+****** BIOGAME *****
+
+OBS: Essa informação se aplica a professores e corretores do projeto:
+
+Alguns testes com a interface apontaram que pode haver confusão com o GUI (mão preencher a tela de perguntas) para aguardar o thred de processamento de blocos de repetição. Dentro do código fonte da aplicação temos a implementação de um bloco de código DO - WHILE que pode ser conflitante com arquitetura do componente visual usado pelo JVM. Para corrigir isso estamos usando invokeLater. 
+
+	-Consulte a versão da sua engine java para verificar o suporte.
+	
+	Possível solução:
+		-Atualize a versão da engine Java.
+		-Abra a aplicação através do navegador com as devidas permissões.
+		-Abra a aplicação através do NetBeans ou outra IDE.
+		
+	Você pode verificar mais informações sobre o problema em:
+		-https://www.guj.com.br/t/jframe-esta-travando-no-while/39297
+		-https://www.programcreek.com/java-api-examples/?class=javax.swing.SwingUtilities&method=invokeLater
+		
+Quaisquer dúvidas:
+	-andrefalcaov8@gmail.com
