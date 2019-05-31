@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 public class Perguntas_frame extends javax.swing.JFrame {
 
@@ -41,40 +42,49 @@ public class Perguntas_frame extends javax.swing.JFrame {
     }
 
     private void SelecionaPerguntaRamdon() {
-        AtualizaPainel();
-        int Rand;
-        do {
-            Random r = new Random();
-            Rand = r.nextInt((XmlToList.size() - 0) + 1) + 0;
-        } while (QuestDone.contains(Rand));
-        QuestDone.add(Rand);
-        ContadorGeral++;
-        Resposta = XmlToList.get(Rand).getResposta();
-        String[] OpcoesOrdenas = new String[Dificuldade];
-        OpcoesOrdenas[0] = XmlToList.get(Rand).getResposta();
-        OpcoesOrdenas[1] = XmlToList.get(Rand).getOp1();
-        OpcoesOrdenas[2] = XmlToList.get(Rand).getOp2();
-        if (Dificuldade > 3) {
-            OpcoesOrdenas[3] = XmlToList.get(Rand).getOp3();
-        }
-        if (Dificuldade > 4) {
-            OpcoesOrdenas[4] = XmlToList.get(Rand).getOp4();
-        }
-        String[] todasAsOpcoes = PopulaQuestRandomico(OpcoesOrdenas);
-        jTextArea1.setText(XmlToList.get(Rand).getQuestao());
-        jCheckBox6.setText(todasAsOpcoes[0]);
-        jCheckBox7.setText(todasAsOpcoes[1]);
-        jCheckBox8.setText(todasAsOpcoes[2]);
-        if (Dificuldade > 3) {
-            jCheckBox9.setText(todasAsOpcoes[3]);
-        } else {
-            jCheckBox9.setVisible(false);
-        }
-        if (Dificuldade > 4) {
-            jCheckBox10.setText(todasAsOpcoes[4]);
-        } else {
-            jCheckBox10.setVisible(false);
-        }
+
+        SwingUtilities.invokeLater (() -> {
+                    AtualizaPainel();
+                       int Rand;
+            do {
+                
+                Random r = new Random();
+                Rand = r.nextInt(((XmlToList.size()-1) - 0) + 1) + 0;
+            } while (QuestDone.contains(Rand));
+            
+            QuestDone.add(Rand);
+            ContadorGeral++;
+            Resposta = XmlToList.get(Rand).getResposta();
+            String[] OpcoesOrdenas = new String[Dificuldade];
+            OpcoesOrdenas[0] = XmlToList.get(Rand).getResposta();
+            OpcoesOrdenas[1] = XmlToList.get(Rand).getOp1();
+            OpcoesOrdenas[2] = XmlToList.get(Rand).getOp2();
+            
+            if (Dificuldade > 3) {
+                OpcoesOrdenas[3] = XmlToList.get(Rand).getOp3();
+            }
+            if (Dificuldade > 4) {
+                OpcoesOrdenas[4] = XmlToList.get(Rand).getOp4();
+            }
+            String[] todasAsOpcoes = PopulaQuestRandomico(OpcoesOrdenas);
+            jTextArea1.setText(XmlToList.get(Rand).getQuestao());
+            jCheckBox6.setText(todasAsOpcoes[0]);
+            jCheckBox7.setText(todasAsOpcoes[1]);
+            jCheckBox8.setText(todasAsOpcoes[2]);
+            if (Dificuldade > 3) {
+                jCheckBox9.setText(todasAsOpcoes[3]);
+            } else {
+                jCheckBox9.setVisible(false);
+            }
+            if (Dificuldade > 4) {
+                jCheckBox10.setText(todasAsOpcoes[4]);
+            } else {
+                jCheckBox10.setVisible(false);
+            }
+        });
+                
+
+        
     }
 
     private javax.swing.JCheckBox[] TodosOsChks() {
